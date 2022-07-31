@@ -1,0 +1,600 @@
+{% if section.blocks.size > 0 %}
+
+{% assign- autoplay = section.settings.autoplay -%}
+{% assign- autoplaySpeed = section.settings.slideshow_speed -%}
+{% assign- fade = section.settings.slideshow_transition -%}
+{% assign- dots =  section.settings.dots -%}
+
+<section class="home-slideshow" id="slideshow-{{section.id}}" >
+  <div class="{% if section.settings.layout == 'default' %}container{% elsif section.settings.layout == 'padd_60' %}container-padd60{% else %}container-fluid{% endif %}">
+    <div class="row">
+      <div class ="grid--1-col">
+        <div class="slideshow" data-auto-video="{{ section.settings.auto_playvideo }}"{% if section.blocks.size > 1 %} data-init-slideshow data-dots="{{ dots }}" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplaySpeed }}" data-fade="{{ fade }}"{% endif %}>
+          {% for block in section.blocks %}
+          {% if block.settings.dpl_slide_img %}
+          <div class="item aos-init"  >
+            {% if block.settings.style_video == 'youtube' %}
+            <div data-video-youtube class="item slide-youtube embed-responsive" id="slide-{{ block.id }}">
+              <div class="fluid-width-video-wrapper">
+                <iframe class="youtube-player" id="player_{{ block.id }}" width="100%" height="100%" autoplay="autoplay" data-video-id="{{ block.settings.video_link }}" src="https://www.youtube.com/embed/{{ block.settings.video_link }}?enablejsapi=1&rel=0&autoplay=0&mute=1" frameborder="0" allowfullscreen=""></iframe>
+              </div>
+              {% if block.settings.slide-des != blank %}
+              <div class="hide-on-mobile slide-content slide-content-mb {% if block.settings.alignment == 'left' %}abs_left{% elsif block.settings.alignment == 'right' %}abs_right{% else %}abs_center{% endif %}" 
+                   style="{% if block.settings.bg_heading_mb != blank %}
+                          background-color:{{ block.settings.bg_heading_mb }};
+                          {% endif %}" >
+                <h2 class="slide-heading" data-aos="fade-up" data-aos-duration="1500"> 
+                  {% render 'multilang' with block.settings.heading  %}
+                </h2>
+                 {% if block.settings.slide-des != blank %}
+                  <p class="slide-text" data-aos="fade-up" data-aos-duration="2500">
+                    {% render 'multilang' with block.settings.slide-des  %}
+                  </p>
+                  {% endif %}                    
+                  {% if block.settings.button_slide != blank %}
+                  <a href="{{ block.settings.link }}" class="slide-button btn" data-aos="fade-up" data-aos-duration="4500">
+                    {% render 'multilang' with block.settings.button_slide  %}
+                  </a>
+                  {% endif %}  
+              </div>
+              {% endif %}
+              
+            </div>
+            {% else %}
+            <div data-video-mp4 class="item slide-video custom-{{ block.id }}--{{ forloop.index }}" id="slide-{{ block.id }} slide-{{ block.id }}-{{ forloop.index }}">
+              <div class="fluid-width-video-wrapper">
+                <video class="video banner--{{ section.settings.slide_height }}" muted playsinline preload="none" autoplay="autoplay" autoplay loop>
+                  <source type="video/mp4" src="{{ block.settings.video_mp4_link }}">
+                </video>
+                {% if block.settings.slide-des != blank %}
+                <div class="hide-on-mobile slide-content slide-content-mb {% if block.settings.alignment == 'left' %}abs_left{% elsif block.settings.alignment == 'right' %}abs_right{% else %}abs_center{% endif %}"
+                     style="{% if block.settings.bg_heading_mb != blank %}
+                            background-color:{{ block.settings.bg_heading_mb }};
+                            {% endif %}">
+                  <p class="slide-heading" data-aos="fade-up" data-aos-duration="1500">
+                    {% render 'multilang' with block.settings.heading  %}
+                  </p>
+                  {% if block.settings.slide-des != blank %}
+                  <p class="slide-text" data-aos="fade-up" data-aos-duration="2500">
+                    {% render 'multilang' with block.settings.slide-des  %}
+                  </p>
+                  {% endif %}                    
+                  {% if block.settings.button_slide != blank %}
+                    <a href="{{ block.settings.link }}" class="slide-button btn" class="slide-button btn" data-aos="fade-up" data-aos-duration="4500">{% render 'multilang' with block.settings.button_slide  %}</a>
+                  {% endif %}                    
+                </div>
+                {% endif %}
+              </div>             
+            </div>
+            {% endif %}
+            <style>
+              .custom-{{ block.id }}--{{ forloop.index }} .slide-content{
+                background-color: {{ block.settings.bg_color }} !important;
+                border: 1px solid {{ block.settings.bg_border_text }}; 
+              }
+              .custom-{{ block.id }}--{{ forloop.index }} .slide-content .slide-heading,
+              .custom-{{ block.id }}--{{ forloop.index }} .slide-content .slide-text {
+                color: {{ block.settings.bg_text }};
+              }
+            </style>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% for block in section.blocks %}
+        {% if block.settings.slide-des != blank %}
+        <div class="show-on-mobile slide-content slide-content-mb {% if block.settings.alignment == 'left' %}abs_left{% elsif block.settings.alignment == 'right' %}abs_right{% else %}abs_center{% endif %}"
+             style="{% if block.settings.bg_heading_mb != blank %}
+                    background-color:{{ block.settings.bg_heading_mb }};
+                    {% endif %}">
+          <h2 class="slide-heading">
+            {% render 'multilang' with block.settings.heading  %}
+          </h2>
+          {% if block.settings.slide-des != blank %}
+          <p class="slide-text">
+            {% render 'multilang' with block.settings.slide-des  %}
+          </p>
+          {% endif %}                    
+          {% if block.settings.button_slide != blank %}
+          <a href="{{ block.settings.link }}" class="slide-button btn">{% render 'multilang' with block.settings.button_slide  %}</a>
+          {% endif %}                    
+        </div>
+        {% endif %}        
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+    {% assign arrow_color =  section.settings.arrow_color %}
+    {% assign arrow_border_color =  section.settings.arrow_border_color %}
+    {% assign margin_bottom =  section.settings.margin_bottom %}
+    {% assign position_slick_arrow =  section.settings.position_slick_arrow %}
+    {% assign arrow_bg_color =  section.settings.arrow_bg_color %}
+  {% for block in section.blocks %}
+  .fluid-width-video-wrapper:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom,rgba(23,23,44,0) 0%,rgba(23,23,44,0) 40%,rgba(23,23,44,.32) 100%);
+  }  
+  #slideshow-{{section.id}} .slide-heading{
+    {% if block.settings.font_size_heading != blank %}
+    font-size: {{ block.settings.font_size_heading }};
+    text-transform: uppercase;
+    {% endif %}
+    {% if block.settings.color_heading != blank %}
+    color:{{ block.settings.color_heading }};
+    {% endif %}
+    {% if block.settings.bg_heading_mb != blank %}
+    background-color:{{ block.settings.bg_heading_mb }};
+    {% endif %}
+  }
+  #slideshow-{{section.id}} .slide-button{
+    {% if block.settings.bg_button != blank %}
+    background-color:{{ block.settings.bg_button }};
+    {% endif %}
+    {% if block.settings.border_button != blank %}
+    border-color:{{ block.settings.border_button }};
+    {% endif %}
+    {% if block.settings.color_button != blank %}
+    color:{{ block.settings.color_button }};
+    {% endif %}
+    text-decoration: none;
+    display: inline-block;
+  }
+  #slideshow-{{section.id}} .slide-text{
+    {% if block.settings.font_size_des != blank %}
+    font-size: {{ block.settings.font_size_des }};
+    {% endif %}
+    {% if block.settings.color_des != blank %}
+    color: {{ block.settings.color_des }};
+    {% endif %}
+  }  
+  
+  #slide-{{ block.id }} .slide-content{
+    background-color: {{ block.settings.bg_color }} !important;
+    border: 1px solid {{ block.settings.bg_border_text }}; 
+  }
+  #slide-{{ block.id }} .slide-content .slide-heading,
+  #slide-{{ block.id }} .slide-content .slide-text {
+    color: {{ block.settings.bg_text }};
+  }
+  
+  {% endfor %}
+    .fluid-width-video-wrapper {
+        padding-top: {{ section.settings.video_height }}!important;
+    }
+
+    #slideshow-{{section.id}} [data-video-mp4] .fluid-width-video-wrapper:before {
+        background: {{ section.settings.bg_video }};
+        opacity: {{ section.settings.bg_overlay_opacity | divided_by: 100.00 }};
+    }
+
+    @media (max-width: 767px) {
+        #slideshow-{{section.id}} {
+            margin-bottom: {{ section.settings.margin_bottom_mb }}px;
+        }
+      {% for block in section.blocks %}  
+      #slideshow-{{section.id}} .slide-heading{
+        font-size: 24px;
+        line-height: 28px;
+      }
+
+      #slideshow-{{section.id}} .slide-text{
+        font-size: 16px;
+        line-height: 28px;
+        margin-top: 6px;
+      }  
+
+      {% endfor %} 
+      .slide-content {
+        text-align: center;
+        padding: 20px 15px 20px 15px;
+      }
+    }
+  @media (max-width: 590px) {
+    {% for block in section.blocks %}  
+    #slideshow-{{section.id}} .slide-heading{
+      font-size: 24px;
+    }
+    {% endfor %} 
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    #slideshow-{{section.id}} {
+      margin-bottom: {{ section.settings.margin_bottom_tab }}px;
+    }
+  }
+
+    @media (min-width: 1200px) {
+        #slideshow-{{section.id}} {
+          margin-bottom: {{ margin_bottom }}px;
+        }
+
+      .container-padd60 .slide-content.abs_left, .container-fluid .slide-content.abs_left {
+        left: -moz-calc((100% - 1200px)/2);
+        left: -webkit-calc((100% - 1200px)/2);
+        left: -ms-calc((100% - 1200px)/2);
+        left: calc((100% - 1200px)/2);
+      }      
+      .container-padd60 .slide-content.abs_right, .container-fluid .slide-content.abs_right {
+        right: -moz-calc((100% - 1200px)/2);
+        right: -webkit-calc((100% - 1200px)/2);
+        right: -ms-calc((100% - 1200px)/2);
+        right: calc((100% - 1200px)/2);
+      }
+    }
+
+/*     @media (min-width: 768px) { */
+        #slideshow-{{section.id}} .slick-dots li button {
+            border-color: {{ section.settings.dots_color }};
+            background: {{ section.settings.dots_color }};
+            border-width: 1.5px;
+        }
+
+        #slideshow-{{section.id}} .slick-dots li.slick-active button {
+            background: rgba(255,255,255,0);
+            border-color: {{ section.settings.dots_active_color }};
+        }
+
+        {% if section.settings.dots_opacity %}
+        #slideshow-{{section.id}} .slick-dots li:not(.slick-active) button {
+            opacity: 0.8;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=80)";
+            filter: alpha(opacity=80);
+        }
+        {% endif %}
+      .slide-content {
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+      }
+      .slide-content.abs_center {
+        left: 50%;
+        -moz-transform: translate(-50%,-47%);
+        -o-transform: translate(-50%,-47%);
+        -ms-transform: translate(-50%,-47%);
+        -webkit-transform: translate(-50%,-47%);
+        transform: translate(-50%,-47%);
+      }
+
+      .slide-content.abs_left, .slide-content.abs_right {
+        -moz-transform: translateY(-47%);
+        -o-transform: translateY(-47%);
+        -ms-transform: translateY(-47%);
+        -webkit-transform: translateY(-47%);
+        transform: translateY(-47%);
+      }      
+     
+/*     } */
+  
+
+
+
+  
+  
+  
+</style>
+{% endif %}
+
+
+{% schema %}
+    {
+        "name": "Slideshow One",
+        "class": "home-slideshow-sections",
+        "max_blocks": 10,
+        "settings": [
+            {
+                "type": "header",
+                "content": "Margin Bottom:"
+            },
+            {
+                "type": "range",
+                "id": "margin_bottom_mb",
+                "label": "Mobile",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "default": 20
+            },
+            {
+                "type": "range",
+                "id": "margin_bottom_tab",
+                "label": "Tablet",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "default": 20
+            },
+            {
+                "type": "range",
+                "id": "margin_bottom",
+                "label": "Desktop",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "default": 30
+            },
+            {
+                "type": "header",
+                "content": "Settings for Slideshow"
+            },
+            {
+                "type": "checkbox",
+                "id": "autoplay",
+                "label": "Slideshow Auto Play",
+                "default": true
+            },
+            {
+                "type": "select",
+                "id": "slideshow_speed",
+                "label": "Change slides every",
+
+                "options": [
+                    { "value": "5000", "label": "5 seconds" },
+                    { "value": "6000", "label": "6 seconds" },
+                    { "value": "7000", "label": "7 seconds" },
+                    { "value": "8000", "label": "8 seconds" },
+                    { "value": "9000", "label": "9 seconds" },
+                    { "value": "10000", "label": "10 seconds" }
+                ],
+                "default": "5000"
+            },
+            {
+                "type": "select",
+                "id": "slideshow_transition",
+                "label": "Slideshow transition effect",
+                "options": [
+                    {
+                    "value": "false",
+                    "label": "Slide"
+                    },
+                    {
+                    "value": "true",
+                    "label": "Fade"
+                    }
+                ],
+                "default": "true"
+            },
+            {
+                "type" : "radio",
+                "id" : "dots",
+                "label" : "Show Dots for Slideshow (Desktop)",
+                "options": [
+                    {
+                        "value": "true",
+                        "label": "True"
+                    },
+                    {
+                        "value": "false",
+                        "label": "False"
+                    }
+                ],
+                "default": "true"
+            },
+            {
+                "type" : "text",
+                "id" : "min_width_banner_button",
+                "label" : "Banner Button Width",
+                "info": "Ex: 270px"
+            },
+            {
+                "type": "header",
+                "content": "Settings for Video"
+            },
+            {
+                "type" : "color",
+                "id" : "bg_video",
+                "label" : "Background Color video",
+                "default" : "#866965"
+            },
+            {
+                "type": "range",
+                "id": "bg_overlay_opacity",
+                "label":"Opacity",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit": "%",
+                "default": 40
+            },
+            {
+                "type": "text",
+                "id": "video_height",
+                "label": "Slideshow Video Height",
+                "default": "41.7%",
+                "info": "You can adjust the height of video to be fit with slider image by %. Example: 30%, 47.25%, 51%."
+            },
+            {
+                "type": "checkbox",
+                "id": "auto_playvideo",
+                "label": "Autoplay video",
+                "default": true
+            }
+        ],
+
+        "blocks" : [
+            {
+                "type": "video",
+                "name": "Video Slider",
+                "settings": [
+					{
+                        "type": "checkbox",
+                        "id": "dpl_slide_img",
+                        "label" : "Enable",
+                        "default" : true
+                    },
+                    {
+                        "type" : "radio",
+                        "id" : "style_video",
+                        "label" : "Style Video",
+                        "options": [
+                            {
+                                "value": "youtube",
+                                "label": "Youtube"
+                            },
+                            {
+                                "value": "mp4",
+                                "label": "Mp4"
+                            }
+                        ],
+                        "default": "youtube"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Youtube"
+                    },
+                    {
+                        "type": "text",
+                        "id": "video_link",
+                        "label": "YouTube video ID",
+                        "default": "eTCtDW7O1aM",
+                        "info": "[Find your YouTube video ID](https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id)."
+                    },
+                    {
+                        "type": "header",
+                        "content": "MP4"
+                    },
+                    {
+                        "type": "text",
+                        "id": "video_mp4_link",
+                        "label": "Video link"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Slideshow Content",
+                        "info" : "Use for MP4 Video"
+                    },
+                    {
+                        "type": "select",
+                        "id": "alignment",
+                        "label": "Text alignment",
+                        "default": "left",
+                        "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                        ]
+                    },
+                    {
+                        "type" : "text",
+                        "id" : "heading",
+                        "label" : "Heading",
+                        "default" : "Cosmopolis"
+                    },
+                    {
+                        "type" : "text",
+                        "id" : "font_size_heading",
+                        "label" : "Heading Font Size ",
+                        "default" : "40px"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "color_heading",
+                        "label" : "Heading Color",
+                        "default" : "#232323"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "bg_heading_mb",
+                        "label" : "Background heading for Mobile",
+                        "default" : "rgba(255, 255, 255, 0.88)"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Text Style"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "bg_text",
+                        "label" : "Text Color",
+                        "default" : "#ffffff"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "bg_color",
+                        "label" : "Background Color",
+                        "default" : "#000000"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "bg_border_text",
+                        "label" : "Border Color",
+                        "default" : "#ffffff"
+                    },
+                    {
+                        "type" : "textarea",
+                        "id" : "slide-des",
+                        "label" : "Slide Description",
+                        "default": "Quisquemos sodales suscipit tortor ditaemcos condimentum de cosmo lacus meleifend menean diverra loremous."
+                    },
+                    {
+                        "type" : "text",
+                        "id" : "font_size_des",
+                        "label" : "Description Font Size",
+                        "default" : "12px"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "color_des",
+                        "label" : "Description Color",
+                        "default" : "#232323"
+                    },
+                    {
+                        "type" : "text",
+                        "id" : "button_slide",
+                        "label" : "Button Slideshow",
+                        "default" : "Shop The Collection"
+                    },
+                    {
+                        "type" : "url",
+                        "id" : "link",
+                        "label" : "Slide link"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "bg_button",
+                        "label" : "Background Button",
+                        "default" : "#232323"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "border_button",
+                        "label" : "Border Button",
+                        "default" : "#232323"
+                    },
+                    {
+                        "type" : "color",
+                        "id" : "color_button",
+                        "label" : "Button Color",
+                        "default" : "#fff"
+                    }
+                ]
+            }
+        ],
+        "presets": [{
+            "name": "Slideshow One",
+            "category": "Slideshow-one",
+            "blocks": [
+                {
+                    "type": "video"
+                }
+            ]
+        }]
+    }
+{% endschema %}

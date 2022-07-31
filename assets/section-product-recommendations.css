@@ -1,0 +1,1 @@
+.product-recommendations {display: block;}.product-recommendations:not(.product-recommendations--loaded) {padding: 0;margin: 0;}.product-recommendations__heading, section.shopify-section.section.apps h2.title {margin: 0;margin-bottom: 3rem;font-size: 28px;color: #2c2c2c;font-weight: 700;margin-top: 0;text-transform: uppercase;text-align: center;}

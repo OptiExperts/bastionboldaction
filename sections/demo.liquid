@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js" ></script>
+<div class="apple slider-for">
+  <div class="a">
+  <img src="https://cdn.shopify.com/s/files/1/0027/7171/4166/files/banner-image.png?v=1644319641">
+  </div>
+  <div class="a">
+<img src="https://cdn.shopify.com/s/files/1/0027/7171/4166/files/banner-image.png?v=1644319641">
+  </div>
+  <div class="a">
+  <img src="https://cdn.shopify.com/s/files/1/0027/7171/4166/files/banner-image.png?v=1644319641">
+  </div>
+  <div class="a">
+  sdfbdfbfb
+  </div>
+  
+</div>
+<script>
+$( document ).ready(function() {
+  $('.slider-for').slick({
+  dots: true,
+  infinite: false,
+  speed: 300,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+});
+});
+
+</script>
+
+
+
+{% schema %}
+  {
+    "name": "Slider",
+    "settings": [
+],
+  "presets": [
+    {
+      "name": "Slider"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

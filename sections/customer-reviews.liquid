@@ -1,0 +1,268 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<section class="homepage-reviews gradient color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding" id="section-{{section.id}}" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js" ></script>
+  <div class="page-width">
+    <div class="heading_box">
+    {% if section.settings.title != blank %}   
+      <h2 class="title">
+          {% render 'multilang' with section.settings.title %}
+      </h2>
+    {% endif %}
+                 
+    </div>
+    <div class="row has-slick has-dots grid grid--gapless grid--3-col-tablet slider-for" data-review-slider  data-infinite="false" data-rowtb="3" data-rowtblg="2" data-rowbm="1" >
+      {% for block in section.blocks %}
+      <div class="grid__items">
+        <div class="item">
+          <div class="item-image">
+            {% if block.settings.reviews_image != blank %}
+              <img class="review-images lazyload" src="{{ block.settings.reviews_image | img_url: 'master' }}" alt="{{block.settings.reviews_title}}">
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="star-reviews {{block.settings.rating}}">
+            {% render 'icon-star' %}
+            {% render 'icon-star' %}
+            {% render 'icon-star' %}
+            {% render 'icon-star' %}
+            {% render 'icon-star' %}
+          </div>
+          {% if block.settings.reviews_heading != blank %}
+            <h3 class="heading-review">
+              {% render 'multilang' with block.settings.reviews_heading %}
+            </h3>
+          {% endif %}
+          
+          {% if block.settings.body_review != blank %}
+          <div class="body-review">
+            {% render 'multilang' with block.settings.body_review %}
+          </div>
+          {% endif %}   
+
+          {% if block.settings.name != blank %}
+          <div class="name-review">
+            <h5>
+              - {% render 'multilang' with block.settings.name %}
+            </h5>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="arrows"></div>
+  </div>
+</section>
+<script>
+ $( document ).ready(function() {
+ $(function () {
+	let slider = $('.slider-for');
+    slider.slick({
+      infinite: true,
+      speed: 600,
+      slidesToShow: 3,
+      autoplay: true,
+      autoplaySpeed:5000,
+      fade: false,
+      arrows: true,
+      appendArrows: $('.arrows'),
+      prevArrow: '<div class="one"></div>',
+      nextArrow: '<div class="two"></div>',
+      dots: false,
+      appendDots: $('.news__dots'),
+      customPaging : function(slider, i) {
+        var thumb = $(slider.$slides[i]).data();
+
+        return '0' + (i + 1);
+      },
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            infinite: true,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+        // You can unslick at a given breakpoint now by adding:
+        // settings: "unslick"
+        // instead of a settings object
+      ],  
+      dotsClass: 'news__dots-list',
+    });
+});
+
+function slideGo(dir) {
+  let slider = $('.slider-for');
+	if(dir === "+") {
+		slider.slick('slickNext');
+	} else if ( dir === "-" ) {
+		slider.slick('slickPrev');
+	}
+ }
+  });
+
+</script>
+
+<style>
+ /* .two.slick-arrow:hover {
+    background-image: url(https://cdn.shopify.com/s/files/1/0600/7314/8665/files/arrow-hover-right.png?v=1643438574);
+} */
+</style>
+
+{% schema %}
+  {
+    "name": "Customer Reviews",
+	"max_blocks": 10,
+    "settings": [
+      {
+        "type": "select",
+        "id": "color_scheme",
+        "options": [
+          {
+            "value": "accent-1",
+            "label": "t:sections.image-with-text.settings.color_scheme.options__4.label"
+          },
+          {
+            "value": "accent-2",
+            "label": "t:sections.image-with-text.settings.color_scheme.options__5.label"
+          },
+          {
+            "value": "background-1",
+            "label": "t:sections.image-with-text.settings.color_scheme.options__1.label"
+          },
+          {
+            "value": "background-2",
+            "label": "t:sections.image-with-text.settings.color_scheme.options__2.label"
+          },
+          {
+            "value": "inverse",
+            "label": "t:sections.image-with-text.settings.color_scheme.options__3.label"
+          }
+        ],
+        "default": "background-1",
+        "label": "t:sections.image-with-text.settings.color_scheme.label"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "padding_top",
+        "default": 52
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "padding_bottom",
+        "default": 52
+      },
+	   {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Customer Reviews"
+      }
+	],
+    "blocks": [
+      {
+        "type": "Review",
+        "name": "Review",
+        "settings": [
+          {
+            "type" : "image_picker",
+            "id" : "reviews_image",
+            "label" : "Select Image"
+          },
+          {
+            "type" : "text",
+            "id" : "reviews_heading",
+            "label" : "Heading",
+            "default" : "Awesome..."
+          },
+          {
+            "type": "select",
+            "id": "rating",
+            "label": "Rating",
+            "options": [
+              { "value": "star0", "label": "0 star" },
+              { "value": "star1", "label": "1 star" },
+              { "value": "star2", "label": "2 star" },
+              { "value": "star3", "label": "3 star" },
+              { "value": "star4", "label": "4 star" },
+              { "value": "star5", "label": "5 star" }
+            ],
+            "default": "star5"
+          },
+          {
+            "type": "textarea",
+            "id": "body_review",
+            "label": "Content of Review",
+            "default": "Nam tempus turpis at metus scelerisque placerat nulla deumantos delo sollicitudin delos felis. Pellentesque diam dolor an elementum et lobortis at mollis ut risus. Curabitur semper sagittis mi condimentum..."
+          },
+		      {
+            "type" : "text",
+            "id" : "name",
+            "label" : "Customer Name",
+            "default" : "Customer Name"
+          }
+        ]
+      }	
+    ],
+    "presets": [
+    {
+      "name": "Custom Block Reviews",
+      "category": "Reviews",
+  		"blocks": [
+          {
+            "type": "Review"
+          },
+          {
+            "type": "Review"
+          },        
+  		    {
+            "type": "Review"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

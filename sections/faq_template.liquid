@@ -1,0 +1,169 @@
+
+{{ 'section-faq.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.accordion_enable %}
+<!--FAQ Area Start-->
+ <div class="page-width">
+<div class="faq-area" id="faq-area-{{ section.id }}">
+  
+      {% if section.settings.accordion_top_title_enable  %}
+      	<header class="section-header">
+			{% if section.settings.accordion_top_title !='' %}
+            <h2 class="h1 section-header__title text-left">{{ section.settings.accordion_top_title }}</h2>
+            {% endif %}
+            {% if section.settings.accordion_top_desc !='' %}
+            <p>{{ section.settings.accordion_top_desc }}</p>
+            {% endif %}
+		</header>
+        {% endif %}
+      
+        <!--FAQ Accordin Start-->
+        <div class="accordion-container faqpage powerfaq">
+           <div class="power-faq">
+             {% for block in section.blocks %}
+             {% case block.type %}
+             {% when 'title' %}
+             <div class="section-title">
+               <h3>{{ block.settings.heading }}</h3>
+             </div>
+
+             {% when 'accordion_area' %}
+             
+               <div class="set">
+    <a href="#" id="section{{ forloop.index }}">
+      {{ block.settings.accordion_title }} 
+      <i class="fa fa-caret-down"></i>
+    </a>
+    <div class="content">
+     {{ block.settings.accordion_content }}
+    </div>
+  </div>
+             {% endcase %}
+             {% endfor %}
+           </div>
+      	</div>
+        <!--FAQ Accordin Start-->
+    </div>
+</div>
+<!--FAQ Area End-->
+{% endif %}
+
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+// $(document).ready(function() {
+// $('.faq').accordion({
+// defaultOpen: 'section1',
+// cookieName: 'accordion_nav'
+// });
+// });
+  
+  
+  $(document).ready(function() {
+  $(".set > a").on("click", function() {
+    if ($(this).hasClass("active")) {
+      $(this).removeClass("active");
+      $(this)
+        .siblings(".content")
+        .slideUp(200);
+      $(".set > a i")
+        .removeClass("fa-caret-up")
+        .addClass("fa-caret-down");
+    } else {
+      $(".set > a i")
+        .removeClass("fa-caret-up")
+        .addClass("fa-caret-down");
+      $(this)
+        .find("i")
+        .removeClass("fa-caret-down")
+        .addClass("fa-caret-up");
+      $(".set > a").removeClass("active");
+      $(this).addClass("active");
+      $(".content").slideUp(200);
+      $(this)
+        .siblings(".content")
+        .slideDown(200);
+    }
+  });
+});
+
+</script>
+
+{% schema %}
+  {
+    "name": "Faq Accordion",
+    "class": "Accordion",
+    "settings": [
+	 {
+    	"type": "header",
+    	"content": "faq accordion Section"
+     },
+	 {
+        "type": "checkbox",
+        "id": "accordion_enable",
+        "label": "Show faq accordion Section",
+        "default": true
+      },
+	  {
+        "type": "checkbox",
+        "id": "accordion_top_title_enable",
+        "label": "Show faq accordion top Section",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "accordion_top_title",
+        "label": "Accordion top Section Title",
+        "default": "Below are frequently asked questions, you may find the answer for yourself"
+      },
+      {
+        "type": "textarea",
+        "id": "accordion_top_desc",
+        "label": "Accordion top Section Description"
+      }
+      
+	],
+    "blocks": [
+      {
+        "type": "accordion_area",
+        "name": "Faq Accordion",
+        "settings": [
+    
+          {
+            "type": "text",
+            "id": "accordion_title",
+            "label": "Accordion Title",
+            "default": "Accordion Title 1"
+          },
+          {
+            "type": "richtext",
+            "id": "accordion_content",
+            "label": "Accordion Content",
+			"default": "<p>Your Accordion Content will be here</p>"
+          }
+        ]
+      },
+      {
+        "type": "title",
+        "name": "Heading",
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Section Title"
+          }
+        ]
+      }
+    ],
+    "presets":[
+        {
+            "name": "Accordion",
+            "category": "9. faq Page"
+        }
+    ]
+
+
+
+  }
+{% endschema %}
+

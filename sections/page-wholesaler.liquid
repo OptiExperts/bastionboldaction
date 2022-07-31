@@ -1,0 +1,352 @@
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+	.section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+   }
+
+@media screen and (min-width: 750px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+}
+{%- endstyle -%}
+
+<div class="top-banner-content-section">
+  
+  <div class="banner-section">
+    <img src="{{ section.settings.image | img_url : 'master' }}" alt="">
+    <div class="top-banner-text-content-area text-center">
+      <div class="banner-wholesaler-content">
+        <h1 class="title">{{ section.settings.title }}</h1>
+      {{ section.settings.coltext3 }}</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="color-{{ section.settings.color_scheme }} gradient wholesaler-section">
+  <div class="page-width page-width--narrow section-{{ section.id }}-padding">
+    
+      <div class="top-content-section">
+        <div class="top-text-content-area text-center">
+        <h2 class="title">{{ section.settings.heading2 }}</h2>
+          <div class="wholesaler-content">{{ section.settings.coltext2 }}</div>
+          <div class="divider"><hr></div>
+        </div>
+      </div>    
+    
+    <div class="grid grid--1-col grid--2-col-tablet">
+    <div class="grid__item">
+    <div class="contact">
+    <h2 class="title title-wrapper--no-top-margin">{{ section.settings.heading | escape }}</h2>
+      <div class="wholesaler-content">{{ section.settings.text }}</div>
+      
+    {%- form 'contact', id: 'ContactForm', class: 'isolate' -%}
+    <div class="contact__fields">
+      <div class="field">
+        <input class="field__input" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}">
+        <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+      </div>
+      <div class="field field--with-error">
+        <input
+               autocomplete="email"
+               type="email"
+               id="ContactForm-email"
+               class="field__input"
+               name="contact[email]"
+               spellcheck="false"
+               autocapitalize="off"
+               value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+               aria-required="true"
+               {% if form.errors contains 'email' %}
+               aria-invalid="true"
+               aria-describedby="ContactForm-email-error"
+               {% endif %}
+               placeholder="{{ 'templates.contact.form.email' | t }}"
+               >
+        <label class="field__label" for="ContactForm-email">{{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+        {%- if form.errors contains 'email' -%}
+        <small class="contact__field-error" id="ContactForm-email-error">
+          <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+          <span class="form__message">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
+        </small>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="field">
+      <input type="tel" id="ContactForm-phone" class="field__input" autocomplete="tel" name="contact[{{ 'templates.contact.form.phone' | t }}]" pattern="[0-9\-]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" placeholder="{{ 'templates.contact.form.phone' | t }}">
+      <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
+    </div>
+    <div class="field">
+      <textarea
+                rows="10"
+                id="ContactForm-body"
+                class="text-area field__input"
+                name="contact[{{ 'templates.contact.form.comment' | t }}]"
+                placeholder="{{ 'templates.contact.form.comment' | t }}"
+                >
+        {{- form.body -}}
+      </textarea>
+      <label class="form__label field__label" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
+    </div>
+    <div class="contact__button">
+      <button type="submit" class="button">
+        {{ 'templates.contact.form.send' | t }}
+      </button>
+    </div>
+    {%- endform -%}
+      </div>
+      </div>
+      <div class="grid__item">
+        <div class="text-content-area color-{{ section.settings.color_scheme1 }} gradient">
+        <h3 class="title">{{ section.settings.heading1 }}</h3>
+        <div class="wholesaler-content">{{ section.settings.coltext }}</div>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+
+<style>
+  .banner-wholesaler-content h1,
+  .banner-wholesaler-content p{
+  	color: {{ section.settings.text-color }};
+  }
+  .banner-wholesaler-content h1{margin-top: 0px; margin-bottom: 10px;}
+  .banner-section {
+    position: relative;
+    height: 320px;
+  }
+  .banner-section img {
+    height: 320px;
+    object-fit: cover;
+    width: 100%;
+  }
+  .banner-wholesaler-content p {
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+  }  
+.top-banner-text-content-area.text-center {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+}
+  
+  .text-content-area{
+    padding: 60px;
+  }
+  .divider hr {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    width: 100%;
+  }  
+  .wholesaler-section h3.title {
+    margin: 10px 0px;
+  }
+  .wholesaler-section .title-wrapper--no-top-margin {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .wholesaler-section .contact {
+    max-width: 700px;
+    width: 100%;
+  }
+  .top-text-content-area .title{margin: 0px;}
+  .top-text-content-area {
+    text-align: center;
+  }
+  .wholesaler-content {
+    max-width: 1090px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  
+  @media only screen and (max-width: 749px){
+    .text-content-area { margin-top: 30px;    padding: 50px 20px;}
+  }
+  
+</style>
+
+
+{% schema %}
+  {
+    "name": "Wholesaler",
+    "settings": [
+    {
+      "type": "header",
+      "content": "banner Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "color",
+      "id": "text-color",
+      "label": "Color"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "coltext3",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Top Content Section"
+    },
+    {
+      "type": "text",
+      "id": "heading2",
+      "default": "Contact form",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "coltext2",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Contact From"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Contact form",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "background-1",
+          "label": "t:sections.all.colors.background_1.label"
+        },
+        {
+          "value": "background-2",
+          "label": "t:sections.all.colors.background_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        }
+      ],
+      "default": "background-1",
+      "label": "t:sections.all.colors.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Second Column"
+    },
+    {
+      "type": "text",
+      "id": "heading1",
+      "default": "Drop",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "coltext",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme1",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "background-1",
+          "label": "t:sections.all.colors.background_1.label"
+        },
+        {
+          "value": "background-2",
+          "label": "t:sections.all.colors.background_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        }
+      ],
+      "default": "background-1",
+      "label": "t:sections.all.colors.label"
+    }
+
+	],
+  "presets": [
+    {
+    "name": "Wholesaler"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,124 @@
+
+<div class="accord_pagess">
+
+{{ 'section-faq.css' | asset_url | stylesheet_tag }}
+<style>
+.accordion {
+    background-color: #F7F7F7;
+    color: #000;
+    padding: 12px 20px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    transition: 0.4s;
+    position: relative;
+    font-weight: 500;
+    margin-top: 0;
+    font-family: montblanc_typeregular!important;
+}
+  .content_images {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+}
+.content_images p {
+    font-size: 17px;
+  margin:10px 0 0;
+}
+.content_images img {
+    width: 100%;
+    max-width: 270px;
+    object-fit: contain;
+    height: 230px;
+    background: #f7f7f7;
+}
+.accordion span.befores {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    padding-right: 20px;
+    bottom: auto;
+}
+  button.accordion.active span.befores {
+    transform: rotate(181deg);
+    padding-left: 20px !IMPORTANT;
+    padding-right: 0px !IMPORTANT;
+    top: 10px;
+}
+  .cont_text h4 {
+    font-size: 17px;
+    margin: 0;
+}
+/*   .accordion span.befores:after {
+    content: "\f106";
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: #000;
+} */
+  .page-width.accords .default-styles-wrapper.zpa-word-wrap {
+    padding-bottom: 10px;
+}
+/*   button.accordion.active span.befores:after {
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: #666;
+} */
+/*   .accord_pages {
+    padding: 60px 0;
+} */
+.active, .accordion:hover {
+  background-color: #ccc; 
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+  @media screen and (max-width: 590px){
+  .content_images img {
+    max-width: 100%;
+}
+    button.accordion {
+    font-size: 14px;
+    line-height: 19px;
+    padding: 10px 40px 10px 20px;
+}
+    .cont_text h4 {
+    font-size: 16px;
+}
+.content_images {
+    flex-direction: column;
+}
+  }
+</style> 
+
+<div class="page-width accords">
+{{ product.metafields.global.bonuse.value }}
+</div>
+</div>
+  
+  
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
